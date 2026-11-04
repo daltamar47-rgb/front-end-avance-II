@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Alquiler de habitaciones</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <!-- SECCIÓN: ENCABEZADO -->
+    <header class="encabezado">
+        <div class="contenedor encabezado-fila">
+            <h1>Alquiler de habitaciones</h1>
+
+            <nav class="menu-principal">
+                <a href="#habitaciones" class="activo" data-seccion="habitaciones">Habitaciones</a>
+                <a href="#clientes" data-seccion="clientes">Clientes</a>
+                <a href="#alquileres" data-seccion="alquileres">Alquileres</a>
+                <a href="#recomendador" data-seccion="recomendador">Recomendador</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- SECCIÓN: HABITACIONES -->
+        <section id="habitaciones" class="modulo">
+            <h2>Habitaciones</h2>
+
+            <form class="panel" id="formHabitacion" novalidate>
+                <h3>Registrar habitación</h3>
+                <div class="formulario-grilla">
+                    <div class="grupo-formulario">
+                        <label for="codigo">Código</label>
+                        <input
+                            type="text"
+                            id="codigo"
+                            name="codigo"
+                            placeholder="Ej: H-301"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="zona">Zona</label>
+                        <input
+                            type="text"
+                            id="zona"
+                            name="zona"
+                            placeholder="Ej: San Pedro"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="precio">Precio mensual en colones</label>
+                        <input
+                            type="number"
+                            id="precio"
+                            name="precio"
+                            min="1"
+                            placeholder="Ej: 150000"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="capacidad">Capacidad (personas)</label>
+                        <input
+                            type="number"
+                            id="capacidad"
+                            name="capacidad"
+                            min="1"
+                            placeholder="Ej: 2"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <p class="etiqueta-grupo">Servicios</p>
+                        <div class="casillas">
+                            <div class="casilla">
+                                <input type="checkbox" id="habWifi" name="wifi">
+                                <label for="habWifi">Wifi</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="habBano" name="bano">
+                                <label for="habBano">Baño privado</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="habAmueblada" name="amueblada">
+                                <label for="habAmueblada">Amueblada</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="habParqueo" name="parqueo">
+                                <label for="habParqueo">Parqueo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grupo-accion">
+                        <button type="submit" class="btn btn-primario">Registrar habitación</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- SECCIÓN: LISTADO DE HABITACIONES -->
+            <div class="panel">
+                <div class="encabezado-tabla">
+                    <div class="filtros">
+                        <button type="button" class="btn-filtro activo" data-filtro="todas">Todas</button>
+                        <button type="button" class="btn-filtro" data-filtro="disponibles">Disponibles</button>
+                        <button type="button" class="btn-filtro" data-filtro="ocupadas">Ocupadas</button>
+                    </div>
+                    <p class="linea-totales">
+                        Total: <strong id="totalHabitaciones">0</strong>,
+                        Disponibles: <strong id="totalDisponibles">0</strong>,
+                        Ocupadas: <strong id="totalOcupadas">0</strong>
+                    </p>
+                </div>
+
+                <table class="table table-hover" data-bs-theme="light" id="tablaHabitaciones">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Zona</th>
+                            <th>Precio mensual</th>
+                            <th>Capacidad</th>
+                            <th>Servicios</th>
+                            <th>Estado</th>
+                            <th>Cliente actual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoHabitaciones"></tbody>
+                </table>
+
+                <p class="estado-vacio oculto" id="vacioHabitaciones">No hay habitaciones para mostrar.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CLIENTES -->
+        <section id="clientes" class="modulo oculto">
+            <h2>Clientes</h2>
+
+            <form class="panel" id="formCliente" novalidate>
+                <h3>Registrar cliente</h3>
+                <div class="formulario-grilla">
+                    <div class="grupo-formulario">
+                        <label for="cedula">Cédula</label>
+                        <input
+                            type="text"
+                            id="cedula"
+                            name="cedula"
+                            placeholder="Ej: 1-1234-0567"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="nombre">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="apellidos">Apellidos</label>
+                        <input
+                            type="text"
+                            id="apellidos"
+                            name="apellidos"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="telefono">Teléfono</label>
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            placeholder="Ej: 8812-3456"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="correo">Correo</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            required>
+                    </div>
+                    <div class="grupo-accion">
+                        <button type="submit" class="btn btn-primario">Registrar cliente</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- SECCIÓN: LISTADO DE CLIENTES -->
+            <div class="panel">
+                <div class="encabezado-tabla">
+                    <div class="campo-suelto">
+                        <label for="buscarCliente">Buscar por nombre, apellidos o cédula</label>
+                        <input
+                            type="search"
+                            id="buscarCliente"
+                            placeholder="Buscar cliente...">
+                    </div>
+                    <p class="linea-totales">Total: <strong id="totalClientes">0</strong></p>
+                </div>
+
+                <table class="table table-hover" data-bs-theme="light" id="tablaClientes">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoClientes"></tbody>
+                </table>
+
+                <p class="estado-vacio oculto" id="vacioClientes">No hay clientes para mostrar.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: ALQUILERES -->
+        <section id="alquileres" class="modulo oculto">
+            <h2>Alquileres</h2>
+
+            <form class="panel" id="formAlquiler" novalidate>
+                <h3>Asignar habitación</h3>
+                <div class="formulario-grilla">
+                    <div class="grupo-formulario">
+                        <label for="selectCliente">Cliente</label>
+                        <select id="selectCliente" name="cliente" required></select>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="selectHabitacion">Habitación disponible</label>
+                        <select id="selectHabitacion" name="habitacion" required></select>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="fechaInicio">Fecha de inicio</label>
+                        <input
+                            type="date"
+                            id="fechaInicio"
+                            name="fechaInicio"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="monto">Monto mensual en colones</label>
+                        <input
+                            type="number"
+                            id="monto"
+                            name="monto"
+                            min="1"
+                            placeholder="Ej: 150000"
+                            required>
+                    </div>
+                    <div class="grupo-accion">
+                        <button type="submit" class="btn btn-primario">Asignar habitación</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- SECCIÓN: HISTORIAL DE ALQUILERES -->
+            <div class="panel">
+                <h3>Historial</h3>
+                <div class="encabezado-tabla">
+                    <div class="filtros">
+                        <button type="button" class="btn-filtro activo" data-filtro="todos">Todos</button>
+                        <button type="button" class="btn-filtro" data-filtro="activos">Activos</button>
+                        <button type="button" class="btn-filtro" data-filtro="finalizados">Finalizados</button>
+                    </div>
+                    <div class="campo-suelto">
+                        <label for="fechaSalida">Fecha de salida</label>
+                        <input
+                            type="date"
+                            id="fechaSalida">
+                    </div>
+                </div>
+
+                <table class="table table-hover" data-bs-theme="light" id="tablaAlquileres">
+                    <thead>
+                        <tr>
+                            <th>Habitación</th>
+                            <th>Cliente</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Monto mensual</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoAlquileres"></tbody>
+                </table>
+
+                <p class="estado-vacio oculto" id="vacioAlquileres">No hay alquileres para mostrar.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: RECOMENDADOR -->
+        <section id="recomendador" class="modulo oculto">
+            <h2>Recomendador</h2>
+
+            <form class="panel" id="formRecomendador" novalidate>
+                <h3>Buscar habitación para un cliente</h3>
+                <div class="formulario-grilla">
+                    <div class="grupo-formulario">
+                        <label for="presupuesto">Presupuesto máximo en colones</label>
+                        <input
+                            type="number"
+                            id="presupuesto"
+                            name="presupuesto"
+                            min="1"
+                            placeholder="Ej: 150000"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="personas">Cantidad de personas</label>
+                        <input
+                            type="number"
+                            id="personas"
+                            name="personas"
+                            min="1"
+                            placeholder="Ej: 2"
+                            required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <p class="etiqueta-grupo">Servicios requeridos</p>
+                        <div class="casillas">
+                            <div class="casilla">
+                                <input type="checkbox" id="recWifi" name="wifi">
+                                <label for="recWifi">Wifi</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="recBano" name="bano">
+                                <label for="recBano">Baño privado</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="recAmueblada" name="amueblada">
+                                <label for="recAmueblada">Amueblada</label>
+                            </div>
+                            <div class="casilla">
+                                <input type="checkbox" id="recParqueo" name="parqueo">
+                                <label for="recParqueo">Parqueo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primario">Ver habitaciones</button>
+            </form>
+
+            <!-- SECCIÓN: RESULTADO DEL RECOMENDADOR -->
+            <div class="panel">
+                <h3>Habitaciones que cumplen</h3>
+
+                <table class="table table-hover oculto" data-bs-theme="light" id="tablaRecomendador">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Zona</th>
+                            <th>Precio mensual</th>
+                            <th>Capacidad</th>
+                            <th>Servicios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoRecomendador"></tbody>
+                </table>
+
+                <p class="estado-vacio oculto" id="vacioRecomendador">No hay habitaciones que cumplan.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
